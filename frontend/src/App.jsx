@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import Homepage from "./views/Hompage";
 import CreateBlogPost from "./views/CreateBlogPost";
-import Tiptap from "./Tiptap";
 import Blog from "./components/Blog";
 
 const router = createBrowserRouter(
@@ -27,9 +26,7 @@ const router = createBrowserRouter(
 function App({ routes }) {
   return (
     <>
-      <div className="App">
-        <Tiptap></Tiptap>
-      </div>
+      <div className="App"></div>
       <RouterProvider router={router} />
     </>
   );

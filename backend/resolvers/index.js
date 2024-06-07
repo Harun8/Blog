@@ -9,11 +9,11 @@ export const resolvers = {
 
     blogPost: async (parent, args) => {
       // Fetch a specific blog post by ID
-      const { _id } = args;
+      const { id } = args;
       console.log(args);
-      if (_id) {
-        const blogPost = await BlogPost.findById(_id);
-        return blogPost;
+      if (id) {
+        const blogPost = await BlogPost.findById(id);
+        return blogPost ? [blogPost] : [];
       }
 
       // If no ID is provided, return all blog posts
