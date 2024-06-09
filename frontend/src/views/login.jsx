@@ -35,7 +35,10 @@ const Login = () => {
     if (result.errors) {
       setIsSubmitting(false);
 
-      console.error(result.errors);
+      const error = result.errors[0];
+
+      // should be a toast
+      console.error(error.extensions.code);
     } else {
       setIsSubmitting(false);
       console.log(result.data); // Log the data
