@@ -12,12 +12,15 @@ import Homepage from "./views/Hompage";
 import CreateBlogPost from "./views/CreateBlogPost";
 import Blog from "./components/Blog";
 import Login from "./views/login";
+import SignUp from "./views/Signup";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Homepage />}></Route>
       <Route path="/login" element={<Login></Login>}></Route>
+
+      <Route path="/singup" element={<SignUp></SignUp>}></Route>
 
       <Route path="/blog/:blogId" element={<Blog></Blog>}></Route>
 

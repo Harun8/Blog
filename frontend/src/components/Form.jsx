@@ -90,7 +90,7 @@ const Forms = (props) => {
 
             <Link
               className=" mt-2 inline-block align-baseline font-bold text-sm text-gray-400 hover:text-text-800"
-              to={props.link}>
+              to={`/${props.link}`}>
               {props.redirect}
             </Link>
             {/* .props */}

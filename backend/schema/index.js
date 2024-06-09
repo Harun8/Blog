@@ -3,6 +3,7 @@ export const typeDefs = `#graphql
 type Query {
     apiStatus:ApiStatus
     blogPost(id: ID): [BlogPost]
+    login(input: UserInput) : User
 }
 
 type Mutation {
@@ -32,15 +33,12 @@ input CreateBlogPost {
 }
 
 input UserInput {
-    firstName: String
-    lastName: String
     email: String
     password: String
 }
 
 type User {
-    firstName : String
-    lastName: String
+
     email: String
 }
 
