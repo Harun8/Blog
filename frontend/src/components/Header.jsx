@@ -2,16 +2,16 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="flex justify-center">
+    <>
       <div className="mt-32">
-        <div className=" px-12 flex justify-items-start ">
+        <div className="px-12 mx-20 ">
           <p className="font-bold text-slate-800 font-black ">BLOG</p>
+          <span className="text-slate-800 font-bold text-7xl text-left text-start">
+            Tips and reccomendation on design projects
+          </span>
         </div>
-        <p className=" text-slate-800 font-bold text-7xl text-left px-12">
-          Tips and reccomendation on design projects
-        </p>
       </div>
-    </div>
+    </>
   );
 };
 

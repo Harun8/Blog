@@ -11,7 +11,12 @@ const Nav = (props) => {
           hitTop
         </Link>
       </p>
-      <div className="text-slate-800 font-bold	">More</div>
+      <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+        <button className="bg-slate-100 hover:bg-slate-200 border-0 ">
+          Log in
+        </button>
+      </Link>
+      {/* <div className="text-slate-800 font-bold	">More</div> */}
     </div>
   );
 };

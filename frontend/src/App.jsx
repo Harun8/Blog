@@ -11,13 +11,17 @@ import {
 import Homepage from "./views/Hompage";
 import CreateBlogPost from "./views/CreateBlogPost";
 import Blog from "./components/Blog";
+import Login from "./views/login";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Homepage />}></Route>
+      <Route path="/login" element={<Login></Login>}></Route>
+
       <Route path="/blog/:blogId" element={<Blog></Blog>}></Route>
 
+      {/* Should be a protected route!! */}
       <Route path="create" element={<CreateBlogPost />}></Route>
     </Route>
   )

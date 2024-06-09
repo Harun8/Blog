@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useParams } from "react-router-dom";
+import "react-quill/dist/quill.snow.css";
+
 import Nav from "./Nav";
 
 const Blog = () => {
@@ -54,7 +56,24 @@ const Blog = () => {
       </div>
 
       {blogPost.length > 0 ? (
-        <div dangerouslySetInnerHTML={{ __html: blogPost[0].content }}></div>
+        <>
+          <div className="row">
+            <img
+              class="rounded-t-lg mx-auto"
+              width={300}
+              height={300}
+              src={blogPost[0].img}
+              alt=""
+            />
+
+            <p className="font-sans text-5xl my-4"> {blogPost[0].title}</p>
+          </div>
+
+          <div className="ql-editor">
+            <div
+              dangerouslySetInnerHTML={{ __html: blogPost[0].content }}></div>
+          </div>
+        </>
       ) : (
         <h3>Loading content ...</h3>
       )}

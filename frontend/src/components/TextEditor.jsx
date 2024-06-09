@@ -44,11 +44,12 @@ class TextEditor extends Component {
       this.reactQuillRef.makeUnprivilegedEditor(editor);
     const htmlText = unprivilegedEditor.getHTML();
     const string = unprivilegedEditor.getText();
-    // if (string.trim() === "") {
-    //   this.props.onContentChange(string);
-    // } else {
-    //   this.props.onContentChange(htmlText);
-    // }
+    if (string.trim() === "") {
+      return;
+      this.props.onContentChange(string);
+    } else {
+      this.props.saveText(htmlText);
+    }
   };
 
   modules = {
