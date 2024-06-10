@@ -7,7 +7,7 @@ type Query {
 }
 
 type Mutation {
-    createUser(input: UserInput): User
+    createUser(input: UserInput): AuthPayload
     createBlogPost(input: CreateBlogPost): BlogPost
 }
 
@@ -40,6 +40,12 @@ input UserInput {
 type User {
 
     email: String
+}
+
+
+type AuthPayload {
+    token: String
+    user: User
 }
 
 `;

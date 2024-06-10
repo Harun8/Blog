@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Forms from "../components/Form";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const signup = async (credentials) => {
@@ -20,10 +22,13 @@ const SignUp = () => {
   createUser (input: {
                   email: "${email}",
                 password :"${password}"
-  }) {
-    email
-  
-  }
+  }) 
+                {
+          token
+          user {
+            email
+          }
+        }
 }
     `,
       }),
@@ -37,8 +42,10 @@ const SignUp = () => {
 
       console.error(result.errors);
     } else {
+      console.log(result.data.createUser); // Log the data
       setIsSubmitting(false);
-      console.log(result.data); // Log the data
+      localStorage.setItem("auth", JSON.stringify(result.data.createUser));
+      navigate("/", { replace: true });
     }
   };
 
@@ -53,7 +60,8 @@ const SignUp = () => {
               onSubmit={signup}
               link="login"
               title="Sign Up"
-              redirect="Already have an account? Log in"></Forms>
+              redirect="Already have an account? Log in"
+            ></Forms>
           </div>
         </div>
         <div className="hidden md:flex md:justify-center md:items-center md:p-12 md:bg-blue-200  ">

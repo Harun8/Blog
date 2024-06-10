@@ -29,7 +29,7 @@ const server = new ApolloServer({
 
 await server.start();
 
-server.applyMiddelWare({ app });
+// server.applyMiddelWare({ app });
 
 app.use(
   "/",

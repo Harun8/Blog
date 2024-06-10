@@ -56,6 +56,10 @@ class TextEditor extends Component {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
       ["bold", "italic", "underline"],
+      [{ color: [] }, { background: [] }],
+      ["image", "link"],
+      ["clean"],
+
       [
         { align: "" },
         { align: "center" },
@@ -82,6 +86,10 @@ class TextEditor extends Component {
     "indent",
     "image",
     "align",
+    "clean",
+    "video",
+    "link",
+    "size",
   ];
 
   render() {
