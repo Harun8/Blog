@@ -3,12 +3,15 @@ import Nav from "../components/Nav";
 import Header from "../components/Header";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
+import client from "../../utils/ApolloClient";
+import { gql } from "@apollo/client";
 
 const Homepage = () => {
   const [articles, setArticles] = useState([]);
+
   useEffect(() => {
     const getArticles = async () => {
-      const query = `
+      const query = gql`
         query {
           blogPost {
             _id
@@ -20,24 +23,20 @@ const Homepage = () => {
         }
       `;
 
-      const response = await fetch("http://localhost:4000/graphql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      try {
+        const result = await client.query({
           query,
-        }),
-      });
+        });
+        console.log("result", result);
 
-      const result = await response.json();
-      console.log(result); // Log the full result
-
-      if (result.errors) {
-        console.error(result.errors);
-      } else {
-        console.log(result.data.blogPost); // Log the data
-        setArticles(result.data.blogPost);
+        if (result.errors) {
+          console.error(result.errors);
+        } else {
+          console.log(result.data.blogPost); // Log the data
+          setArticles(result.data.blogPost);
+        }
+      } catch (error) {
+        console.error("Error fetching articles:", error);
       }
     };
 

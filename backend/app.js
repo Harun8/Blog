@@ -10,6 +10,7 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { typeDefs } from "./schema/index.js";
 import { resolvers } from "./resolvers/index.js";
 import { connectDB } from "./db/db.js";
+import { verifyToken } from "./middleware/jwt.js";
 
 const API_PORT = process.env.API_PORT || 4000;
 
@@ -29,15 +30,36 @@ const server = new ApolloServer({
 
 await server.start();
 
-// server.applyMiddelWare({ app });
+app.use(cors(), (req, res, next) => {
+  const token = req.headers.authorization;
+
+  // console.log(req.headers);
+  // console.log(req.token);
+
+  if (token != undefined) {
+    // console.log("token", token);
+    let tt = JSON.parse(token);
+    // console.log("tt", tt);
+
+    let isTokenValid = verifyToken(tt.token);
+    console.log("isTokenValid", isTokenValid);
+  }
+
+  next(); // Pass control to the next middleware function
+});
 
 app.use(
   "/",
   cors(),
   express.json({ limit: "50mb" }),
-
   expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
+    context: async ({ req }) => {
+      const token = req.headers.authorization || "";
+      return {
+        token,
+        headers: req.headers,
+      };
+    },
   })
 );
 

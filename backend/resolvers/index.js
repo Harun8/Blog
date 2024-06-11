@@ -1,36 +1,32 @@
 import hashing from "../middleware/hashing.js";
-import signToken from "../middleware/jwt.js";
+import { signToken } from "../middleware/jwt.js";
 import passwordValidation from "../middleware/passwordValidation.js";
 import BlogPost from "../models/blogPost.js";
 import User from "../models/user.js";
-
+import { GraphQLError } from "graphql";
+import Role from "../models/role.js";
 export const resolvers = {
   // returns data, aka get req??
   Query: {
     login: async (parent, args) => {
       const { password, email } = args.input;
-      console.log(password, email);
 
       if (password && email) {
-        console.log("finding the user");
         const user = await User.find({
           email,
         });
 
-        console.log("user is", user);
         let hashedPassword = user[0].password;
         let passwordCheck = await passwordValidation(password, hashedPassword);
-
-        console.log("passwordCheck", passwordCheck);
       } else {
         return { err: "information is required" };
       }
     },
 
-    blogPost: async (parent, args) => {
+    blogPost: async (parent, args, context) => {
       // Fetch a specific blog post by ID
+      const { token } = context;
       const { id } = args;
-      console.log(args);
       if (id) {
         const blogPost = await BlogPost.findById(id);
         return blogPost ? [blogPost] : [];
@@ -48,11 +44,22 @@ export const resolvers = {
       const { password } = args.input;
       const { email } = args.input;
 
-      // console.log("password", password, args);
+      const u = await User.find({
+        email: email,
+      });
+
+      console.log("user", u);
+      if (u.length > 0) {
+        console.log("ABORT user already exists!!!");
+        throw new GraphQLError("User already exists", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+
       if (password) {
-        // console.log("got in here");
         let hashedPassword = await hashing(password);
-        console.log("hash", hashedPassword);
 
         const user = await User.create({
           email,
@@ -60,12 +67,23 @@ export const resolvers = {
           new: true,
         });
 
-        console.log("user", user);
         let token = await signToken(user);
+        const role = await Role.findOneAndUpdate(
+          {
+            name: "User",
+          },
+          {
+            $addToSet: {
+              members: user._id,
+            },
+          },
+          {
+            new: true,
+          }
+        );
+        console.log("role", role);
 
-        console.log("token", token);
-
-        return { token, user: { email: user.email } };
+        return { token, user: { email: user.email, _id: user._id } };
       } else {
         return { err: "error creating user" };
       }

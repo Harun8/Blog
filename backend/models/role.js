@@ -15,6 +15,6 @@ const roleSchema = new Schema({
   created_at: { type: Date, default: () => Date.now() },
 });
 
-const Role = mongoose.role || model("role", roleSchema);
+const Role = mongoose.role || model("roles", roleSchema);
 
 export default Role;

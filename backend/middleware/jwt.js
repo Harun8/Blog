@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const signToken = async (payload) => {
+export const signToken = async (payload) => {
   let token = jwt.sign(
     {
       data: payload,
@@ -12,7 +12,9 @@ const signToken = async (payload) => {
   return token;
 };
 
-// const verifyToken = async(payload) => {
+export const verifyToken = (token) => {
+  let decode = jwt.verify(token, "secret");
 
-// }
-export default signToken;
+  return decode;
+};
+// export default { signToken, verifyToken };
