@@ -33,16 +33,12 @@ await server.start();
 app.use(cors(), (req, res, next) => {
   const token = req.headers.authorization;
 
-  // console.log(req.headers);
-  // console.log(req.token);
+  if (!token) return next();
 
   if (token != undefined) {
-    // console.log("token", token);
     let tt = JSON.parse(token);
-    // console.log("tt", tt);
 
     let isTokenValid = verifyToken(tt.token);
-    console.log("isTokenValid", isTokenValid);
   }
 
   next(); // Pass control to the next middleware function

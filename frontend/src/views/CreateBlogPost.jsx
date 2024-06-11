@@ -6,18 +6,22 @@ import { Link } from "react-router-dom";
 import ImageUploading from "react-images-uploading";
 import client from "../../utils/ApolloClient";
 import { gql } from "@apollo/client";
-
+import { Ability } from "@casl/ability";
+import { useNavigate } from "react-router-dom";
 const CreateBlogPost = () => {
   const [images, setImages] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [ability, setAbility] = useState(new Ability());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAbilities = async () => {
       const query = gql`
         query {
           abilities {
-            actions
+            action
+            subject
           }
         }
       `;
@@ -31,7 +35,9 @@ const CreateBlogPost = () => {
         if (result.errors) {
           console.error(result.errors);
         } else {
-          console.log(result.data.blogPost); // Log the data
+          const ability = new Ability(result.data.abilities);
+          console.log(result.data.abilities); // Log the data
+          setAbility(ability);
         }
       } catch (error) {
         console.error("Error fetching articles:", error);
@@ -39,6 +45,12 @@ const CreateBlogPost = () => {
     };
     getAbilities();
   }, []);
+
+  useEffect(() => {
+    if (ability.cannot("manage", "all")) {
+      navigate("/", { replace: true });
+    }
+  }, [ability]);
 
   const savePost = async (text) => {
     let { data_url: img } = images[0];

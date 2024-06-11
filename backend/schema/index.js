@@ -4,7 +4,7 @@ type Query {
     apiStatus:[ApiStatus]
     blogPost(id: ID): [BlogPost]
     login(input: UserInput) : AuthPayload
-    abilities: Abilities
+    abilities: [Ability]
 }
 
 type Mutation {
@@ -12,16 +12,14 @@ type Mutation {
     createBlogPost(input: CreateBlogPost): BlogPost
 }
 
-type Abilities {
+type Ability {
 
-    actions: String
-    subjects : [Subject]
+    action: String
+    subject : String
     
 }
 
-type Subject {
-    subject: String
-}
+
 
 type ApiStatus {
     status : String

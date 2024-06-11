@@ -16,13 +16,11 @@ export const resolvers = {
         const user = await User.find({
           email,
         });
-        console.log("user", user);
         let token = await signToken(user);
 
         let hashedPassword = user[0].password;
         let passwordCheck = await passwordValidation(password, hashedPassword);
 
-        console.log(passwordCheck, token);
         if (passwordCheck) {
           return { token, user: { email: user[0].email, _id: user[0]._id } };
         } else {
@@ -41,9 +39,16 @@ export const resolvers = {
       }
     },
     abilities: async (parent, args, context, req) => {
-      console.log();
+      if (!token) {
+        return [{ action: "read", subject: "posts" }];
+      }
       const token = JSON.parse(context.token);
-      defineGlobalAbilities();
+      const { user } = token;
+      let ability = await defineGlobalAbilities(user);
+
+      console.log("ability", ability.rules);
+
+      return ability.rules;
     },
 
     blogPost: async (parent, args, context) => {
@@ -53,11 +58,12 @@ export const resolvers = {
       if (id) {
         const blogPost = await BlogPost.findById(id);
         return blogPost ? [blogPost] : [];
-      }
+      } else {
+        // If no ID is provided, return all blog posts
+        const allPosts = await BlogPost.find({});
 
-      // If no ID is provided, return all blog posts
-      const allPosts = await BlogPost.find({});
-      return allPosts;
+        return allPosts;
+      }
     },
   },
 
@@ -71,9 +77,7 @@ export const resolvers = {
         email: email,
       });
 
-      console.log("user", u);
       if (u.length > 0) {
-        console.log("ABORT user already exists!!!");
         throw new GraphQLError("User already exists", {
           extensions: {
             code: "BAD_USER_INPUT",
@@ -104,7 +108,6 @@ export const resolvers = {
             new: true,
           }
         );
-        console.log("role", role);
 
         return { token, user: { email: user.email, _id: user._id } };
       } else {
