@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Forms from "../components/Form";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const login = async (credentials) => {
     setIsSubmitting(true);
@@ -20,9 +22,13 @@ const Login = () => {
               login(input : {
                 email: "${email}",
                 password :"${password}"
-      }) {
-         email     
-      }
+      })           {
+          token
+          user {
+            email
+            _id
+          }
+        }
                 
             }
     `,
@@ -40,6 +46,9 @@ const Login = () => {
       // should be a toast
       console.error(error.extensions.code);
     } else {
+      console.log(result.data.login);
+      localStorage.setItem("auth", JSON.stringify(result.data.login));
+      navigate("/", { replace: true });
       setIsSubmitting(false);
       console.log(result.data); // Log the data
     }
@@ -56,7 +65,8 @@ const Login = () => {
               onSubmit={login}
               link="singup"
               title="Log in"
-              redirect="Don't have an account? Sign up"></Forms>
+              redirect="Don't have an account? Sign up"
+            ></Forms>
           </div>
         </div>
         <div className="hidden md:flex md:justify-center md:items-center md:p-12 md:bg-blue-200  ">

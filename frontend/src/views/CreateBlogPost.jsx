@@ -1,16 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import TextEditor from "../components/TextEditor";
 
 import { Link } from "react-router-dom";
 import ImageUploading from "react-images-uploading";
-
-// };
+import client from "../../utils/ApolloClient";
+import { gql } from "@apollo/client";
 
 const CreateBlogPost = () => {
   const [images, setImages] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  useEffect(() => {
+    const getAbilities = async () => {
+      const query = gql`
+        query {
+          abilities {
+            actions
+          }
+        }
+      `;
+
+      try {
+        const result = await client.query({
+          query,
+        });
+        console.log("result", result);
+
+        if (result.errors) {
+          console.error(result.errors);
+        } else {
+          console.log(result.data.blogPost); // Log the data
+        }
+      } catch (error) {
+        console.error("Error fetching articles:", error);
+      }
+    };
+    getAbilities();
+  }, []);
 
   const savePost = async (text) => {
     let { data_url: img } = images[0];
@@ -59,7 +87,8 @@ const CreateBlogPost = () => {
             xmlns="http://www.w3.org/2000/svg"
             width={30}
             height={30}
-            viewBox="0 0 512 512">
+            viewBox="0 0 512 512"
+          >
             <path d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z" />
           </svg>
         </Link>
@@ -70,14 +99,16 @@ const CreateBlogPost = () => {
           placeholder="Title.."
           onChange={(e) => setTitle(e.target.value)}
           className="border-2 rounded-lg"
-          type="text"></input>
+          type="text"
+        ></input>
 
         <ImageUploading
           multiple
           value={images}
           onChange={onChange}
           maxNumber={1}
-          dataURLKey="data_url">
+          dataURLKey="data_url"
+        >
           {({
             imageList,
             onImageUpload,
@@ -92,7 +123,8 @@ const CreateBlogPost = () => {
               <button
                 style={isDragging ? { color: "red" } : undefined}
                 onClick={onImageUpload}
-                {...dragProps}>
+                {...dragProps}
+              >
                 Add thumbnail
               </button>
               &nbsp;
@@ -115,7 +147,8 @@ const CreateBlogPost = () => {
       <div className="flex justify-center mt-6">
         <button
           className=" mb-12 bg-secondary text-secondary-foreground shadow-sm bg-orange-200 hover:bg-sky-400 "
-          onClick={() => savePost()}>
+          onClick={() => savePost()}
+        >
           Submit
         </button>
       </div>

@@ -1,7 +1,7 @@
 import { AbilityBuilder, Ability } from "@casl/ability";
 
-import { isEqual, some } from "lodash";
-import Role from "../models/role";
+import some from "lodash";
+import Role from "../models/role.js";
 
 async function defineGlobalAbilities(user) {
   return new Promise(async (resolve, reject) => {

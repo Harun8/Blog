@@ -1,9 +1,10 @@
 export const typeDefs = `#graphql 
 
 type Query {
-    apiStatus:ApiStatus
+    apiStatus:[ApiStatus]
     blogPost(id: ID): [BlogPost]
-    login(input: UserInput) : User
+    login(input: UserInput) : AuthPayload
+    abilities: Abilities
 }
 
 type Mutation {
@@ -11,7 +12,16 @@ type Mutation {
     createBlogPost(input: CreateBlogPost): BlogPost
 }
 
+type Abilities {
 
+    actions: String
+    subjects : [Subject]
+    
+}
+
+type Subject {
+    subject: String
+}
 
 type ApiStatus {
     status : String
@@ -40,6 +50,7 @@ input UserInput {
 type User {
 
     email: String
+    _id: String
 }
 
 

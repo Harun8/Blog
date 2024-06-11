@@ -5,6 +5,7 @@ import BlogPost from "../models/blogPost.js";
 import User from "../models/user.js";
 import { GraphQLError } from "graphql";
 import Role from "../models/role.js";
+import defineGlobalAbilities from "../middleware/abilities.js";
 export const resolvers = {
   // returns data, aka get req??
   Query: {
@@ -15,12 +16,34 @@ export const resolvers = {
         const user = await User.find({
           email,
         });
+        console.log("user", user);
+        let token = await signToken(user);
 
         let hashedPassword = user[0].password;
         let passwordCheck = await passwordValidation(password, hashedPassword);
+
+        console.log(passwordCheck, token);
+        if (passwordCheck) {
+          return { token, user: { email: user[0].email, _id: user[0]._id } };
+        } else {
+          throw new GraphQLError("User err", {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          });
+        }
       } else {
-        return { err: "information is required" };
+        throw new GraphQLError("User err", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
       }
+    },
+    abilities: async (parent, args, context, req) => {
+      console.log();
+      const token = JSON.parse(context.token);
+      defineGlobalAbilities();
     },
 
     blogPost: async (parent, args, context) => {

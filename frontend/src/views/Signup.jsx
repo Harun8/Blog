@@ -27,6 +27,7 @@ const SignUp = () => {
           token
           user {
             email
+            _id
           }
         }
 }
