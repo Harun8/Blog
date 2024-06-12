@@ -5,7 +5,7 @@ export const signToken = async (payload) => {
     {
       data: payload,
     },
-    "secret",
+    process.env.SECRET_KEY,
     { expiresIn: "24h" }
   );
 
@@ -13,7 +13,7 @@ export const signToken = async (payload) => {
 };
 
 export const verifyToken = (token) => {
-  let decode = jwt.verify(token, "secret");
+  let decode = jwt.verify(token, process.env.SECRET_KEY);
 
   return decode;
 };
