@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  AZURE_WEBAPP_NAME: "Wep-App" # set this to your application's name
+  AZURE_WEBAPP_NAME: "Web-App" # set this to your application's name
   BACKEND_PACKAGE_PATH: "backend" # path to your backend project
   FRONTEND_PACKAGE_PATH: "frontend" # path to your frontend project
   NODE_VERSION: "18.x" # set this to the node version to use
@@ -71,6 +71,13 @@ jobs:
           name: frontend-app
           path: ${{ env.FRONTEND_PACKAGE_PATH }}
 
+      - name: "Deploy to Azure WebApp (Backend)"
+        uses: Azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.BACKEND_PACKAGE_PATH }}
+
       - name: "Deploy to Azure WebApp (Frontend)"
         uses: Azure/webapps-deploy@v3
         with:
@@ -78,9 +85,8 @@ jobs:
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ${{ env.FRONTEND_PACKAGE_PATH }}
 
-      - name: "Deploy to Azure WebApp (Backend)"
-        uses: Azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ env.BACKEND_PACKAGE_PATH }}
+      - name: Configure Azure App Service to serve static files
+        run: |
+          az webapp config appsettings set --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group myResourceGroup --settings WEBSITES_PORT=80
+          echo 'web.config file added for static file configuration'
+        shell: bash
