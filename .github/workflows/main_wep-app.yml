@@ -1,3 +1,5 @@
+name: Deploy to Azure
+
 on:
   push:
     branches:
@@ -5,7 +7,8 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: "Wep-App"  # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  BACKEND_PACKAGE_PATH: 'backend'      # path to your backend project
+  FRONTEND_PACKAGE_PATH: 'frontend'    # path to your frontend project
   NODE_VERSION: '18.x'                # set this to the node version to use
 
 jobs:
@@ -24,23 +27,29 @@ jobs:
 
     - name: Install backend dependencies
       run: |
-        cd backend
+        cd ${{ env.BACKEND_PACKAGE_PATH }}
         npm install
         npm run build --if-present
         npm run test --if-present
 
     - name: Install frontend dependencies
       run: |
-        cd frontend
+        cd ${{ env.FRONTEND_PACKAGE_PATH }}
         npm install
         npm run build --if-present
         npm run test --if-present
 
-    - name: Upload artifact for deployment job
+    - name: Upload backend artifact for deployment job
       uses: actions/upload-artifact@v4
       with:
-        name: node-app
-        path: .
+        name: backend-app
+        path: ${{ env.BACKEND_PACKAGE_PATH }}
+
+    - name: Upload frontend artifact for deployment job
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-app
+        path: ${{ env.FRONTEND_PACKAGE_PATH }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,19 +59,31 @@ jobs:
       url: web-app.azurewebsites.net
 
     steps:
-    - name: Download artifact from build job
+    - name: Download backend artifact from build job
       uses: actions/download-artifact@v4
       with:
-        name: node-app
+        name: backend-app
+        path: ${{ env.BACKEND_PACKAGE_PATH }}
 
-    - name: 'Deploy to Azure WebApp'
-      id: deploy-to-webapp
-      uses: Azure/webapps-deploy@v3.0.1
-      
+    - name: Download frontend artifact from build job
+      uses: actions/download-artifact@v4
+      with:
+        name: frontend-app
+        path: ${{ env.FRONTEND_PACKAGE_PATH }}
+
+    - name: 'Deploy to Azure WebApp (Backend)'
+      uses: Azure/webapps-deploy@v3
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        package: ${{ env.BACKEND_PACKAGE_PATH }}
+        slot-name: ""  # Explicitly set slot-name to an empty string
 
-
+    - name: 'Deploy to Azure WebApp (Frontend)'
+      uses: Azure/webapps-deploy@v3
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ${{ env.FRONTEND_PACKAGE_PATH }}
+        slot-name: ""  # Explicitly set slot-name to an empty string
 
