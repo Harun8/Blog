@@ -71,16 +71,16 @@ jobs:
           name: frontend-app
           path: ${{ env.FRONTEND_PACKAGE_PATH }}
 
-      - name: "Deploy to Azure WebApp (Backend)"
-        uses: Azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ env.BACKEND_PACKAGE_PATH }}
-
       - name: "Deploy to Azure WebApp (Frontend)"
         uses: Azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ${{ env.FRONTEND_PACKAGE_PATH }}
+
+      - name: "Deploy to Azure WebApp (Backend)"
+        uses: Azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.BACKEND_PACKAGE_PATH }}
