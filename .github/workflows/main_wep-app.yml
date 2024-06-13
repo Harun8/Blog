@@ -6,10 +6,12 @@ on:
       - main
 
 env:
-  AZURE_WEBAPP_NAME: "Wep-App" # set this to your application's name
+  AZURE_WEBAPP_NAME: "Web-App" # set this to your application's name
   BACKEND_PACKAGE_PATH: "backend" # path to your backend project
   FRONTEND_PACKAGE_PATH: "frontend" # path to your frontend project
   NODE_VERSION: "18.x" # set this to the node version to use
+  AZURE_RESOURCE_GROUP: "Web-App-Prod" # set this to your resource group
+  AZURE_SUBSCRIPTION_ID: "c1a543a0-ca0f-484e-8673-fd26a5406eba" # set this to your subscription ID
 
 jobs:
   build:
@@ -92,7 +94,5 @@ jobs:
 
       - name: Configure Azure App Service to serve static files
         run: |
-          az webapp config appsettings set --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group myResourceGroup --settings WEBSITES_PORT=80
+          az webapp config appsettings set --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --settings WEBSITES_PORT=80
           echo 'web.config file added for static file configuration'
-
-
