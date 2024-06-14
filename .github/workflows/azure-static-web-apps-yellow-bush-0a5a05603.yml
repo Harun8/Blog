@@ -18,11 +18,17 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Create dist directory
+        run: mkdir -p frontend/dist
+
       - name: Install dependencies and build frontend
         run: |
           cd frontend
           npm install
           npm run build
+          # Log the output of the build command
+          echo "Build output:"
+          cat dist/* || true
           # Copy headers or routes.json to the build output
           cp public/routes.json dist/routes.json || true
 
