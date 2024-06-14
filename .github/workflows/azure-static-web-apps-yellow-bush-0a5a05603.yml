@@ -18,9 +18,6 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: Create dist directory
-        run: mkdir -p frontend/dist
-
       - name: Install dependencies and build frontend
         run: |
           cd frontend
