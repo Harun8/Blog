@@ -23,7 +23,6 @@ jobs:
         cd frontend
         npm install
         npm run build
-      working-directory: ./frontend
 
     - name: Log frontend directory contents
       run: |
@@ -31,14 +30,12 @@ jobs:
         ls -la frontend
         echo "Logging frontend/dist directory contents"
         ls -la frontend/dist
-      working-directory: ./
 
     - name: Install dependencies and build backend
       run: |
         cd backend
         npm install
         npm run build
-      working-directory: ./backend
 
     - name: Deploy to Azure Static Web Apps
       uses: Azure/static-web-apps-deploy@v1
