@@ -23,7 +23,7 @@ jobs:
         cd frontend
         npm install
         npm run build
-      working-directory: frontend
+      working-directory: ./frontend
 
     - name: Log frontend directory contents
       run: |
