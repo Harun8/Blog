@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "build": "npm run build",
     "test": "echo \"No tests specified\"",
     "start": "nodemon --quiet app.js"
   },
