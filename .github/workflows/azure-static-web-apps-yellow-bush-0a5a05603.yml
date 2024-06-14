@@ -27,15 +27,19 @@ jobs:
     - name: Log frontend directory contents
       run: |
         echo "Logging frontend directory contents"
-        ls -la frontend
+        ls -la ./frontend
         echo "Logging frontend/dist directory contents"
-        ls -la frontend/dist
+        ls -la ./frontend/dist
 
-    - name: Install dependencies and build backend
+    - name: Install dependencies for backend
       run: |
         cd backend
         npm install
-        npm run build
+
+    - name: Log backend directory contents
+      run: |
+        echo "Logging backend directory contents"
+        ls -la ./backend
 
     - name: Deploy to Azure Static Web Apps
       uses: Azure/static-web-apps-deploy@v1
@@ -47,4 +51,4 @@ jobs:
         api_location: "backend"  # The location of your API source code.
         app_artifact_location: "frontend/dist" # The location of your build output directory.
         app_build_command: "npm run build"
-        api_build_command: "npm run build"
+        api_build_command: "" # No build command for the backend
