@@ -18,11 +18,14 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install dependencies and build frontend
-        run: |
-          cd frontend
-          npm install
-          npm run build
+    - name: Install dependencies and build frontend
+      run: |
+        cd frontend
+        npm install
+        npm run build
+        # Copy headers or routes.json to the build output
+        cp routes.json dist/routes.json
+
       - name: Log frontend directory contents
         run: |
           echo "Logging frontend directory contents"
