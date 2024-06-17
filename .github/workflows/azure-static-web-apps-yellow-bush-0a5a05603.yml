@@ -46,5 +46,5 @@ jobs:
           app_location: "frontend" # The location of your application source code.
           api_location: "backend" # The location of your API source code.
           app_artifact_location: "./" # The location of your build output directory.
-          app_build_command: "npm run build"
+          app_build_command: "vite build"
           api_build_command: "" # No build command for the backend
