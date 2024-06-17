@@ -12,7 +12,7 @@ import { resolvers } from "./resolvers/index.js";
 import { connectDB } from "./db/db.js";
 import { verifyToken } from "./middleware/jwt.js";
 
-const API_PORT = process.env.API_PORT || 8080;
+const API_PORT = process.env.PORT || process.env.API_PORT || 4000;
 
 // const { url } = await startStandaloneServer(server, {
 //   context: async ({ req }) => ({ token: req.headers.token }),
