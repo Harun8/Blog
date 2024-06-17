@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     outDir: "dist",
     chunkSizeWarningLimit: 1000, // Increase the chunk size limit to 1000 kB
-    base: "./",
+    base: "/frontend/",
     manifest: true,
     rollupOptions: {
       // overwrite default .html entry
