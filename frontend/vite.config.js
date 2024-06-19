@@ -6,7 +6,7 @@ export default defineConfig({
   build: {
     outDir: "dist",
     chunkSizeWarningLimit: 1000, // Increase the chunk size limit to 1000 kB
-    base: "https://yellow-bush-0a5a05603.5.azurestaticapps.net/",
+    base: "./",
     manifest: true,
     rollupOptions: {
       // overwrite default .html entry
