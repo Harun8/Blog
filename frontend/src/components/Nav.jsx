@@ -7,7 +7,7 @@ const Nav = ({ token }, props) => {
   const userAuth = () => {
     if (token != null) {
       localStorage.removeItem("auth");
-      navigate("/", { replace: true });
+      navigate(0);
     } else {
       navigate("/login", { replace: true });
     }

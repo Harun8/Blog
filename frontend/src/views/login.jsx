@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Forms from "../components/Form";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,8 +45,10 @@ const Login = () => {
       const error = result.errors[0];
 
       // should be a toast
-      console.error(error.extensions.code);
+
+      toast.error("Email or password is wrong");
     } else {
+      toast.success("Welcome back! :)");
       console.log(result.data.login);
       localStorage.setItem("auth", JSON.stringify(result.data.login));
       navigate("/", { replace: true });
@@ -56,6 +59,7 @@ const Login = () => {
 
   return (
     <>
+      <Toaster></Toaster>
       <div class=" flex justify-center md:grid md:grid-cols-2 md:gap-1 h-dvh ">
         <div className="">
           <div className="flex justify-center">
