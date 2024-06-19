@@ -30,13 +30,11 @@ const CreateBlogPost = () => {
         const result = await client.query({
           query,
         });
-        console.log("result", result);
 
         if (result.errors) {
           console.error(result.errors);
         } else {
           const ability = new Ability(result.data.abilities);
-          console.log(result.data.abilities); // Log the data
           setAbility(ability);
         }
       } catch (error) {
@@ -54,9 +52,7 @@ const CreateBlogPost = () => {
 
   const savePost = async (text) => {
     let { data_url: img } = images[0];
-    console.log("check", images);
-    console.log("content", content);
-    console.log("images", typeof img);
+
     const response = await fetch("http://localhost:4000", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -79,12 +75,10 @@ const CreateBlogPost = () => {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
   };
 
   const onChange = (imageList, addUpdateIndex) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
 

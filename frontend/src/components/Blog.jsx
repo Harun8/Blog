@@ -9,8 +9,6 @@ const Blog = () => {
   const { blogId } = useParams();
   useEffect(() => {
     const getBlog = async () => {
-      console.log("call", blogId);
-
       const query = `
       query GetBlogPost($id: ID!) {
         blogPost(id: $id) {
@@ -35,12 +33,10 @@ const Blog = () => {
       });
 
       const result = await response.json();
-      console.log(result); // Log the full result
 
       if (result.errors) {
         console.error(result.errors);
       } else {
-        console.log(result.data.blogPost); // Log the data
         setBlogPost(result.data.blogPost);
       }
     };

@@ -12,7 +12,6 @@ const Homepage = () => {
 
   useEffect(() => {
     let token = localStorage.getItem("auth");
-    console.log("token", token);
     setToken(token);
     const getArticles = async () => {
       const query = gql`
@@ -31,12 +30,10 @@ const Homepage = () => {
         const result = await client.query({
           query,
         });
-        console.log("result", result);
 
         if (result.errors) {
           console.error(result.errors);
         } else {
-          console.log(result.data.blogPost); // Log the data
           setArticles(result.data.blogPost);
         }
       } catch (error) {

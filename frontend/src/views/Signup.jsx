@@ -9,7 +9,6 @@ const SignUp = () => {
   const signup = async (credentials) => {
     setIsSubmitting(true);
     let { email, password } = credentials;
-    console.log(credentials, email, password);
 
     const response = await fetch("http://localhost:4000/graphql", {
       method: "POST",
@@ -36,14 +35,12 @@ const SignUp = () => {
     });
 
     const result = await response.json();
-    console.log(result); // Log the full result
 
     if (result.errors) {
       setIsSubmitting(false);
 
       console.error(result.errors);
     } else {
-      console.log(result.data.createUser); // Log the data
       setIsSubmitting(false);
       localStorage.setItem("auth", JSON.stringify(result.data.createUser));
       navigate("/", { replace: true });
