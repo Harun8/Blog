@@ -65,13 +65,19 @@ const Blog = () => {
               src={blogPost[0].img}
               alt=""
             />
-
-            <p className="font-sans text-5xl my-4"> {blogPost[0].title}</p>
+          </div>
+          <div className="flex justify-center">
+            <p className="font-sans text-5xl my-4 mx-auto">
+              {" "}
+              {blogPost[0].title}
+            </p>
           </div>
 
           <div className="ql-editor">
             <div
-              dangerouslySetInnerHTML={{ __html: blogPost[0].content }}></div>
+              className="px-44 text-wrap"
+              dangerouslySetInnerHTML={{ __html: blogPost[0].content }}
+            ></div>
           </div>
         </>
       ) : (

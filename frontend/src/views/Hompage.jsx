@@ -8,8 +8,12 @@ import { gql } from "@apollo/client";
 
 const Homepage = () => {
   const [articles, setArticles] = useState([]);
+  const [token, setToken] = useState();
 
   useEffect(() => {
+    let token = localStorage.getItem("auth");
+    console.log("token", token);
+    setToken(token);
     const getArticles = async () => {
       const query = gql`
         query {
@@ -45,7 +49,7 @@ const Homepage = () => {
 
   return (
     <>
-      <Nav></Nav>
+      <Nav token={token}></Nav>
       <div>
         <Header></Header>
       </div>
