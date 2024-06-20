@@ -4,3 +4,4 @@ This project includes
 - JWT
 - GraphQL/Apollo
 - Rich text editor ->  quilljs
+- Deployed on Azure using static web app
