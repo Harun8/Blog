@@ -1,7 +1,6 @@
+This project includes
 
-
-- RBAC
+- RBAC with casl/ability
 - JWT
-- Cookie instead of localstorage
 - GraphQL/Apollo
-- Rich text editor
+- Rich text editor ->  quilljs
