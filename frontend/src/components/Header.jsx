@@ -7,7 +7,7 @@ const Header = () => {
         <div className="px-12 mx-20 ">
           <p className="font-bold text-slate-800 font-black ">BLOG</p>
           <span className="text-slate-800 font-bold text-7xl text-left text-start">
-            Tips and reccomendation on design projects
+            Lessons From My Experience In Software Development
           </span>
         </div>
       </div>

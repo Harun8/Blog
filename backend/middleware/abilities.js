@@ -16,7 +16,7 @@ async function defineGlobalAbilities(user) {
       )
     );
     userRoles.forEach((gRole) => {
-      if (gRole.name === "Admin" && gRole.permissions.name) {
+      if (gRole.name === "Admin") {
         can("manage", "all");
       } else if (gRole.name != "Admin") {
         // For all other Global roles, allow only that which is defined in the db.

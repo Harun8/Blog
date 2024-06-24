@@ -34,8 +34,12 @@ const CreateBlogPost = () => {
         if (result.errors) {
           console.error(result.errors);
         } else {
+          console.log(result.data.abilities);
           const ability = new Ability(result.data.abilities);
           setAbility(ability);
+          if (ability.cannot("manage", "all")) {
+            navigate("/", { replace: true });
+          }
         }
       } catch (error) {
         console.error("Error fetching articles:", error);
@@ -43,12 +47,6 @@ const CreateBlogPost = () => {
     };
     getAbilities();
   }, []);
-
-  useEffect(() => {
-    if (ability.cannot("manage", "all")) {
-      navigate("/", { replace: true });
-    }
-  }, [ability]);
 
   const savePost = async (text) => {
     let { data_url: img } = images[0];

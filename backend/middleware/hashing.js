@@ -6,7 +6,6 @@ const someOtherPlaintextPassword = "not_bacon";
 const hashPassword = async (plainPassword) => {
   try {
     let hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-    console.log("hashed Password", hashPassword);
 
     return hashedPassword;
   } catch (error) {

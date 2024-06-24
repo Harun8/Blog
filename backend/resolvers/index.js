@@ -39,14 +39,12 @@ export const resolvers = {
       }
     },
     abilities: async (parent, args, context, req) => {
+      const token = JSON.parse(context.token);
       if (!token) {
         return [{ action: "read", subject: "posts" }];
       }
-      const token = JSON.parse(context.token);
       const { user } = token;
       let ability = await defineGlobalAbilities(user);
-
-      console.log("ability", ability.rules);
 
       return ability.rules;
     },
@@ -122,6 +120,10 @@ export const resolvers = {
     },
     createBlogPost: async (parent, args, context, info) => {
       const { author, title, content, img } = args.input;
+      const token = JSON.parse(context.token);
+      console.log("context", context);
+
+      console.log("yooo", args);
 
       const blogPost = await BlogPost.create({
         author,
