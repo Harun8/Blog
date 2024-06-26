@@ -25,7 +25,7 @@ jobs:
           npm run build
       - name: Log frontend directory contents
         run: |
-          echo "Logging frontend directory contents"
+          echo "Logging frontend directory contentss"
           ls -la ./frontend
           echo "Logging frontend/dist directory contents"
           ls -la ./frontend/dist
